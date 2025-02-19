@@ -1,15 +1,45 @@
-[gd_scene load_steps=3 format=3 uid="uid://8u7r4hiseoi4"]
+[gd_scene load_steps=6 format=3 uid="uid://8u7r4hiseoi4"]
 
-[ext_resource type="Script" path="res://player.gd" id="1_cay21"]
+[ext_resource type="PackedScene" uid="uid://b22kvucadu3ik" path="res://pause_menu.tscn" id="2_lqs4f"]
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_qfuxu"]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0wh5o"]
 
-[node name="Player" type="Node3D"]
-script = ExtResource("1_cay21")
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jf7gj"]
+height = 1.3
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_jyden"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_5qqle"]
+
+[node name="Player" type="StaticBody3D"]
+
+[node name="CollisionShapeNormal" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_0wh5o")
+
+[node name="CollisionShapeCrouch" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, 0)
+shape = SubResource("CapsuleShape3D_jf7gj")
+disabled = true
+
+[node name="Head" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
+
+[node name="Camera" type="Camera3D" parent="Head"]
+current = true
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+root_path = NodePath("../..")
+replication_config = SubResource("SceneReplicationConfig_jyden")
+
+[node name="PauseMenu" parent="." instance=ExtResource("2_lqs4f")]
+visible = false
+anchors_preset = -1
+offset_left = 466.0
+offset_top = 224.0
+offset_right = 466.0
+offset_bottom = 224.0
+scale = Vector2(3, 3)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("CapsuleMesh_qfuxu")
-skeleton = NodePath("../Camera3D")
-
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.682873, 0)
+mesh = SubResource("CapsuleMesh_5qqle")

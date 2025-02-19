@@ -1,25 +1,84 @@
-[gd_scene load_steps=4 format=3 uid="uid://bwf1rg02cs5ri"]
+[gd_scene load_steps=8 format=3 uid="uid://bwf1rg02cs5ri"]
 
+[ext_resource type="Script" path="res://nachalo.gd" id="1_m1bwd"]
 [ext_resource type="PackedScene" uid="uid://8u7r4hiseoi4" path="res://player.tscn" id="1_xeulm"]
-[ext_resource type="PackedScene" uid="uid://dwk4yri500vno" path="res://nachalo.tscn" id="2_udvgq"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_khi3g"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_ybf4l"]
+sky_material = SubResource("ProceduralSkyMaterial_khi3g")
+
+[sub_resource type="Environment" id="Environment_qauan"]
+background_mode = 2
+sky = SubResource("Sky_ybf4l")
+tonemap_mode = 2
+glow_enabled = true
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_5jv6w"]
 size = Vector2(15, 15)
 
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_toomr"]
+points = PackedVector3Array(-7.5, 0, -7.5, -7.5, 0, 7.5, 7.5, 0, -7.5, 7.5, 0, 7.5)
+
 [node name="Node3D" type="Node3D"]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("PlaneMesh_5jv6w")
-skeleton = NodePath("")
-
-[node name="Player" parent="MeshInstance3D" instance=ExtResource("1_xeulm")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.13643, 2.35239)
+script = ExtResource("1_m1bwd")
+player_scene = ExtResource("1_xeulm")
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://player.tscn")
 spawn_path = NodePath("../Spawn")
 spawn_limit = 4
 
-[node name="Spawn" type="Node" parent="."]
+[node name="Spawn" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0178, 3.81407, 5.25127)
 
-[node name="Nachalo" parent="." instance=ExtResource("2_udvgq")]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+anchors_preset = -1
+anchor_right = 0.5
+anchor_bottom = 0.599
+offset_left = 285.0
+offset_top = 147.0
+offset_right = -247.0
+offset_bottom = -175.152
+metadata/_edit_group_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer"]
+layout_mode = 2
+
+[node name="Host" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Host"
+
+[node name="Join" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Join"
+
+[node name="WorldEnv" type="Node3D" parent="."]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnv"]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 4.15117, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="WorldEnv"]
+environment = SubResource("Environment_qauan")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+mesh = SubResource("PlaneMesh_5jv6w")
+skeleton = NodePath("")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_toomr")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0178, 3.81407, -3.65894)
+skeleton = NodePath("../Spawn")
+
+[connection signal="spawned" from="MultiplayerSpawner" to="." method="_on_multiplayer_spawner_spawned"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/Host" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/Join" to="." method="_on_button_2_pressed"]
