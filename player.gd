@@ -9,24 +9,29 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 var show0=false;
 
 func show2():
-	Input.mouse_mode=Input.MOUSE_MODE_VISIBLE
+	#Input.mouse_mode=Input.MOUSE_MODE_VISIBLE
 	$Canvas.show()
 	show0=true
 	Engine.time_scale=0
 
 func hide2():
-	Input.mouse_mode=Input.MOUSE_MODE_CAPTURED
+	#Input.mouse_mode=Input.MOUSE_MODE_CAPTURED
 	$Canvas.hide()
 	show0=false
 	Engine.time_scale=1
 
 func _enter_tree() -> void:
 	set_multiplayer_authority(name.to_int())
+	hide2()
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	camera.current = is_multiplayer_authority()
 	pass # Replace with function body.
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventMouseMotion:
+		rotate_y(-event.relative.x*.005)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
@@ -74,4 +79,4 @@ func _on_resume_button_down() -> void:
 
 func _on_quit_button_down() -> void:
 	$"../".exit_game(name.to_int())
-	pass # Replace with function body.
+	get_tree().quit()

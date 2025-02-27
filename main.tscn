@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://bwf1rg02cs5ri"]
 
-[ext_resource type="Script" path="res://nachalo.gd" id="1_m1bwd"]
+[ext_resource type="Script" uid="uid://6lt7npy6v0w2" path="res://nachalo.gd" id="1_m1bwd"]
 [ext_resource type="PackedScene" uid="uid://8u7r4hiseoi4" path="res://player.tscn" id="1_xeulm"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_khi3g"]
@@ -27,8 +27,8 @@ script = ExtResource("1_m1bwd")
 player_scene = ExtResource("1_xeulm")
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://player.tscn", "res://player.tscn")
-spawn_path = NodePath("../Spawn")
+_spawnable_scenes = PackedStringArray("uid://8u7r4hiseoi4", "uid://8u7r4hiseoi4")
+spawn_path = NodePath("..")
 spawn_limit = 4
 
 [node name="Spawn" type="MeshInstance3D" parent="."]
@@ -36,26 +36,42 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0178, 3.81407, 5.25127)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
-anchors_preset = -1
-anchor_right = 0.5
-anchor_bottom = 0.599
-offset_left = 285.0
-offset_top = 147.0
-offset_right = -247.0
-offset_bottom = -175.152
-metadata/_edit_group_ = true
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 459.0
+offset_top = 238.0
+offset_right = -459.0
+offset_bottom = -238.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/PanelContainer"]
 layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
 
-[node name="Host" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+alignment = 1
+
+[node name="Host" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Host"
 
-[node name="Join" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer"]
+[node name="Join" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Join"
+
+[node name="Adress" type="LineEdit" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "localhost"
+placeholder_text = "Address"
 
 [node name="WorldEnv" type="Node3D" parent="."]
 
@@ -80,5 +96,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0178, 3.81407, -3.65894)
 skeleton = NodePath("../Spawn")
 
 [connection signal="spawned" from="MultiplayerSpawner" to="." method="_on_multiplayer_spawner_spawned"]
-[connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/Host" to="." method="_on_button_pressed"]
-[connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/Join" to="." method="_on_button_2_pressed"]
+[connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/Host" to="." method="_on_host_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/Join" to="." method="_on_join_button_pressed"]

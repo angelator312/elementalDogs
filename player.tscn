@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://8u7r4hiseoi4"]
 
-[ext_resource type="Script" path="res://player.gd" id="1_li78c"]
+[ext_resource type="Script" uid="uid://3b6nu6ekfhyc" path="res://player.gd" id="1_li78c"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0wh5o"]
 
@@ -33,7 +33,7 @@ disabled = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
 
 [node name="Camera" type="Camera3D" parent="Head"]
-transform = Transform3D(1, 0, 0, 0, 0.905569, 0.424199, 0, -0.424199, 0.905569, 0, 0.771846, 3.23435)
+transform = Transform3D(1, 0, 0, 0, 0.996275, -0.0862347, 0, 0.0862347, 0.996275, -0.279079, -0.161586, 0.347562)
 current = true
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
@@ -45,23 +45,37 @@ mesh = SubResource("CapsuleMesh_5qqle")
 
 [node name="Canvas" type="CanvasLayer" parent="."]
 
-[node name="MarginContainer" type="MarginContainer" parent="Canvas"]
-offset_left = 93.0
-offset_top = 146.0
-offset_right = 183.0
-offset_bottom = 212.0
-metadata/_edit_group_ = true
+[node name="PanelContainer" type="PanelContainer" parent="Canvas"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 459.0
+offset_top = 238.0
+offset_right = -459.0
+offset_bottom = -238.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Canvas/MarginContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="Canvas/PanelContainer"]
 layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
 
-[node name="Resume" type="Button" parent="Canvas/MarginContainer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Canvas/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+alignment = 1
+
+[node name="Host" type="Button" parent="Canvas/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Resume"
 
-[node name="Quit" type="Button" parent="Canvas/MarginContainer/VBoxContainer"]
+[node name="Join" type="Button" parent="Canvas/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Quit"
 
-[connection signal="button_down" from="Canvas/MarginContainer/VBoxContainer/Resume" to="." method="_on_resume_button_down"]
-[connection signal="button_down" from="Canvas/MarginContainer/VBoxContainer/Quit" to="." method="_on_quit_button_down"]
+[connection signal="pressed" from="Canvas/PanelContainer/MarginContainer/VBoxContainer/Host" to="." method="_on_resume_button_down"]
+[connection signal="pressed" from="Canvas/PanelContainer/MarginContainer/VBoxContainer/Join" to="." method="_on_quit_button_down"]
