@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://8u7r4hiseoi4"]
 
-[ext_resource type="PackedScene" uid="uid://b22kvucadu3ik" path="res://pause_menu.tscn" id="2_lqs4f"]
+[ext_resource type="Script" path="res://player.gd" id="1_li78c"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0wh5o"]
 
@@ -8,10 +8,17 @@
 height = 1.3
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_jyden"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_5qqle"]
 
-[node name="Player" type="StaticBody3D"]
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_li78c")
 
 [node name="CollisionShapeNormal" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -26,20 +33,32 @@ disabled = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
 
 [node name="Camera" type="Camera3D" parent="Head"]
+transform = Transform3D(1, 0, 0, 0, 0.905569, 0.424199, 0, -0.424199, 0.905569, 0, 0.771846, 3.23435)
 current = true
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-root_path = NodePath("../..")
 replication_config = SubResource("SceneReplicationConfig_jyden")
 
-[node name="PauseMenu" parent="." instance=ExtResource("2_lqs4f")]
-visible = false
-anchors_preset = -1
-offset_left = 466.0
-offset_top = 224.0
-offset_right = 466.0
-offset_bottom = 224.0
-scale = Vector2(3, 3)
-
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.974438, 0)
 mesh = SubResource("CapsuleMesh_5qqle")
+
+[node name="Canvas" type="CanvasLayer" parent="."]
+
+[node name="MarginContainer" type="MarginContainer" parent="Canvas"]
+offset_right = 90.0
+offset_bottom = 66.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Canvas/MarginContainer"]
+layout_mode = 2
+
+[node name="Resume" type="Button" parent="Canvas/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Resume"
+
+[node name="Quit" type="Button" parent="Canvas/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Quit"
+
+[connection signal="button_down" from="Canvas/MarginContainer/VBoxContainer/Resume" to="." method="_on_resume_button_down"]
+[connection signal="button_down" from="Canvas/MarginContainer/VBoxContainer/Quit" to="." method="_on_quit_button_down"]

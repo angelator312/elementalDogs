@@ -15,6 +15,8 @@ func hide2():
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	$".".hide()
+	show0=false
 	pass # Replace with function body.
 	
 func _unhandled_input(event: InputEvent) -> void:
@@ -35,5 +37,5 @@ func _on_resume_pressed() -> void:
 
 
 func _on_quit_pressed() -> void:
-	$"../../../".exit_game(name.to_int())
+	$"../".exit_game(name.to_int())
 	pass # Replace with function body.

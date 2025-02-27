@@ -29,10 +29,10 @@ func del_player(id):
 @rpc("any_peer","call_local")
 func _del_player(id):
 	get_node(str(id)).queue_free()
-
 var br=0
-func _on_multiplayer_spawner_spawned(node: Node) -> void:
+func _on_multiplayer_spawner_spawned(_node: Node) -> void:
 	if(br==0):
 		$Spawn.position.z=-3.659
+	print($Spawn.position)
 	br+=1;
 	pass # Replace with function body.
