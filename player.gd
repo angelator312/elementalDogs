@@ -7,7 +7,7 @@ const JUMP_VELOCITY = -320.0
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var camera: Camera3D = $Head/Camera
 var show0=false;
-
+var usedDeck=Deck.SimpleDeck.new()
 func show2():
 	#Input.mouse_mode=Input.MOUSE_MODE_VISIBLE
 	$Canvas.show()
@@ -55,6 +55,11 @@ func _physics_process(delta):
 		velocity.y = JUMP_VELOCITY;
 	if Input.is_action_just_pressed("quit"):
 		show2()
+		print("before",usedDeck.arrayOfCards)
+		var a=randi();
+		addUpCardOfUsed(a)
+		rpc("addUpCardOfUsed",a)
+		print("after",usedDeck.arrayOfCards)
 		
 
 		
@@ -80,3 +85,16 @@ func _on_resume_button_down() -> void:
 func _on_quit_button_down() -> void:
 	$"../".exit_game(name.to_int())
 	get_tree().quit()
+
+
+func _on_end_turn_pressed() -> void:
+	print(usedDeck.arrayOfCards)
+	#rpc("setUsedDeck",usedDeck)
+	pass # Replace with function body.
+@rpc("any_peer","call_local","reliable",1)
+func deletUpCardOfUsed():
+	usedDeck.deleteUpCard()
+
+@rpc("any_peer","call_remote","reliable",1)
+func addUpCardOfUsed(card):
+	usedDeck.addUpCard(card)
