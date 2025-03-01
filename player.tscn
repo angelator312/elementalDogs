@@ -1,7 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://8u7r4hiseoi4"]
+[gd_scene load_steps=6 format=3 uid="uid://8u7r4hiseoi4"]
 
 [ext_resource type="Script" uid="uid://3b6nu6ekfhyc" path="res://player.gd" id="1_li78c"]
-[ext_resource type="Script" uid="uid://c370mwcb77nly" path="res://cards_decks.gd" id="2_onrkg"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0wh5o"]
 
@@ -80,7 +79,6 @@ text = "Quit"
 
 [node name="CardsContainer" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.08694, -1.25805)
-script = ExtResource("2_onrkg")
 
 [node name="EndTurn" type="Button" parent="."]
 offset_left = 47.0
