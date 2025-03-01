@@ -1,6 +1,7 @@
 extends Node3D
 
 @export var player_scene:PackedScene
+@export var player_scene_2:PackedScene
 @export var port=1027
 @export var br=0
 @onready var address_entry: LineEdit = $CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/Adress
@@ -33,7 +34,7 @@ func start_game():
 	CardDecks.razdai(br)
 	for i in range(0,br):
 		for j in CardDecks.hands[i].arrayOfCards:
-			get_node(str(i)).izprati(i,j)
+			$table.izprati(i,j)
 		
 func add_player(_id=1):
 	var player:=player_scene.instantiate()
@@ -41,8 +42,7 @@ func add_player(_id=1):
 	br+=1
 	#if is_host:
 	print("joined",br,_id)
-	call_deferred("add_child",player)
-	
+	$table.add_player(player)
 func exit_game(id):
 	remove_player(id)
 

@@ -1,0 +1,77 @@
+[gd_scene load_steps=5 format=3 uid="uid://cpjel61t4megs"]
+
+[ext_resource type="Script" uid="uid://c370mwcb77nly" path="res://cards_decks.gd" id="1_jd0nb"]
+[ext_resource type="Script" uid="uid://b60eqf6f0pwdp" path="res://table_main.gd" id="1_v5i0k"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0xm2m"]
+albedo_color = Color(0.210157, 0.1943, 0.67, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_jd0nb"]
+material = SubResource("StandardMaterial3D_0xm2m")
+size = Vector3(2, 2, 2)
+
+[node name="table" type="Node3D"]
+script = ExtResource("1_v5i0k")
+
+[node name="Canvas" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="PanelContainer" type="PanelContainer" parent="Canvas"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 459.0
+offset_top = 238.0
+offset_right = -459.0
+offset_bottom = -238.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Canvas/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Canvas/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+alignment = 1
+
+[node name="Resume" type="Button" parent="Canvas/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Resume"
+
+[node name="Quit" type="Button" parent="Canvas/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Quit"
+
+[node name="CardsContainer" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.08694, -1.25805)
+script = ExtResource("1_jd0nb")
+
+[node name="EndTurn" type="Button" parent="."]
+visible = false
+offset_left = 47.0
+offset_top = 286.0
+offset_right = 125.0
+offset_bottom = 317.0
+text = "End Turn"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_left = 11.0
+offset_top = 526.0
+offset_right = 1149.0
+offset_bottom = 611.0
+text = "default
+"
+
+[node name="WithDrawDeck-Mesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(2.99894, 0, 0, 0, 0.0941757, 0, 0, 0, 2.71136, 0, 0.45812, -2.47652)
+mesh = SubResource("BoxMesh_jd0nb")
+skeleton = NodePath("")
+
+[connection signal="pressed" from="Canvas/PanelContainer/MarginContainer/VBoxContainer/Resume" to="." method="_on_resume_button_down"]
+[connection signal="pressed" from="Canvas/PanelContainer/MarginContainer/VBoxContainer/Quit" to="." method="_on_quit_button_down"]
