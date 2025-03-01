@@ -57,7 +57,7 @@ var cardFromName:={
 
 }
 
-class SimpleDeck extends  Node:
+class SimpleDeck extends Node:
 	var replicated=false
 	var arrayOfCards;
 	func _init(cards:=[],replicate:=false) -> void:
@@ -104,11 +104,13 @@ class PlayerHand extends SimpleDeck:
 		var card=withDrawDeck.getUpCard()
 		arrayOfCards.push_back(card)
 
-
 var cards :=cardFromName.values()
-var usedDeck:=SimpleDeck.new([])
-var withDrawDeck:=SimpleDeck.new([]);
-var hands=[]
+var usedDeck:=SimpleDeck.new([],true)
+var withDrawDeck:=SimpleDeck.new([],true);
+var hands=[PlayerHand.new(),PlayerHand.new(),PlayerHand.new(),PlayerHand.new()]
+func _init() -> void:
+	add_child(usedDeck)
+	add_child(withDrawDeck)
 func makeAdvancedCard(card_name,ind):
 	print(card_name)
 	var cardNow=Card.new(ind);

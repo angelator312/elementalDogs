@@ -1,11 +1,26 @@
 extends CharacterBody3D
 
 const SPEED = 300.0
-const JUMP_VELOCITY = -320.0 
+const JUMP_VELOCITY = 10.0 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var camera: Camera3D = $Head/Camera
+@onready var text_hand: RichTextLabel = $RichTextLabel
 var show0=false;
+
+func izprati(plF:int,card):
+	print("izprati",self.name)
+	rpc("izprati_rpc",plF,card)
+	text_hand.text=str(CardDecks.hands[plF].arrayOfCards)
+
+@rpc("any_peer","call_remote","reliable",3)
+func izprati_rpc(plF:int,card):
+	print(name,plF)
+	if self.name==str(plF):
+		CardDecks.hands[plF].addUpCard(card)
+		var strH=str(CardDecks.hands[plF].arrayOfCards)
+		text_hand.text=strH
+		print(plF,text_hand.text)
 
 func show2():
 	#Input.mouse_mode=Input.MOUSE_MODE_VISIBLE
@@ -29,6 +44,7 @@ func _ready() -> void:
 	pass # Replace with function body.
 
 func _unhandled_input(event: InputEvent) -> void:
+	if !is_multiplayer_authority():return
 	if event is InputEventMouseMotion:
 		rotate_y(-event.relative.x*.005)
 

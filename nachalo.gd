@@ -31,13 +31,16 @@ func start_game():
 	$PanelContainer.visible=false
 	CardDecks.make_deck()
 	CardDecks.razdai(br)
-	
+	for i in range(0,br):
+		for j in CardDecks.hands[i].arrayOfCards:
+			get_node(str(i)).izprati(i,j)
+		
 func add_player(_id=1):
 	var player:=player_scene.instantiate()
 	player.name=str(br)
 	br+=1
 	#if is_host:
-	print("joined",br)
+	print("joined",br,_id)
 	call_deferred("add_child",player)
 	
 func exit_game(id):
