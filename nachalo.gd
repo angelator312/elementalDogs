@@ -26,16 +26,18 @@ func _on_join_button_pressed():
 	peer.create_client(address_entry.text, port)
 	multiplayer.multiplayer_peer = peer
 func start_game():
-	CardDecks.make_deck()
+	$MultiplayerSpawner.spawn_limit=br
 	start_game_bt.disabled=true
 	$PanelContainer.visible=false
+	CardDecks.make_deck()
+	CardDecks.razdai(br)
 	
-func add_player(id=1):
+func add_player(_id=1):
 	var player:=player_scene.instantiate()
-	player.name=str(id)
-	#if is_host:
-	print("joined",id)
+	player.name=str(br)
 	br+=1
+	#if is_host:
+	print("joined",br)
 	call_deferred("add_child",player)
 	
 func exit_game(id):
@@ -49,4 +51,4 @@ func _on_multiplayer_spawner_spawned(_node: Node) -> void:pass
 func _ready() -> void:
 	$PanelContainer.visible=false
 #@rpc("any_peer")
-#func _
+#func start_game_rpc()

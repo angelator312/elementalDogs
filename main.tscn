@@ -34,12 +34,9 @@ script = ExtResource("1_m1bwd")
 player_scene = ExtResource("1_xeulm")
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://8u7r4hiseoi4", "uid://8u7r4hiseoi4")
+_spawnable_scenes = PackedStringArray("uid://8u7r4hiseoi4")
 spawn_path = NodePath("..")
 spawn_limit = 4
-
-[node name="Spawn" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0178, 3.81407, 5.25127)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -99,14 +96,12 @@ skeleton = NodePath("")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
 shape = SubResource("ConvexPolygonShape3D_toomr")
 
-[node name="UsedDeck" type="Node3D" parent="."]
+[node name="ReplicatedDeck" type="Node" parent="."]
 
-[node name="WithDrawDeck" type="Node3D" parent="."]
-transform = Transform3D(2.99894, 0, 0, 0, 0.515342, 0, 0, 0, 7.01211, 0, 0.944726, 0)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="WithDrawDeck"]
-transform = Transform3D(1, 0, 0, 0, 0.182744, 0, 0, 0, 0.386668, 0, -0.944238, -0.353178)
+[node name="WithDrawDeck-Mesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(2.99894, 0, 0, 0, 0.0941757, 0, 0, 0, 2.71136, 0, 0.45812, -2.47652)
 mesh = SubResource("BoxMesh_0xm2m")
+skeleton = NodePath("")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 anchors_preset = 15
@@ -135,6 +130,16 @@ alignment = 1
 [node name="StartGame" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "StartGame"
+
+[node name="SimpleDeck" type="Node" parent="."]
+
+[node name="Node" type="Node" parent="."]
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_left = 141.0
+offset_top = 526.0
+offset_right = 181.0
+offset_bottom = 566.0
 
 [connection signal="spawned" from="MultiplayerSpawner" to="." method="_on_multiplayer_spawner_spawned"]
 [connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/Host" to="." method="_on_host_button_pressed"]

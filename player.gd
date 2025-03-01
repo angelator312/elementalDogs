@@ -6,6 +6,7 @@ const JUMP_VELOCITY = -320.0
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var camera: Camera3D = $Head/Camera
 var show0=false;
+
 func show2():
 	#Input.mouse_mode=Input.MOUSE_MODE_VISIBLE
 	$Canvas.show()
@@ -34,17 +35,6 @@ func _unhandled_input(event: InputEvent) -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
 	if !is_multiplayer_authority():return
-	#if GlobalVariables.levelWon:
-		#animations.play("default")
-		#whenWon.visible=true
-		#return
-	#if(gameOver):
-		#if(animations.frame==11):
-			##animations.autoplay="death"
-			#animations.stop()
-			#animations.frame=9
-		#return
-		
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y -= gravity * delta
