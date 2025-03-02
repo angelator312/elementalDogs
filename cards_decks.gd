@@ -9,7 +9,7 @@ var cardFromName:={
 			"powerful":1,
 			"on_play":func():pass,
 			"on_get":func():pass,
-			"special_card":false, # true - predi razdavaneto se slaga, false - sled razdavane se slaga 
+			"special_card":false, #  false - predi razdavaneto se slaga, true - sled razdavane se slaga
 			"times":5
 		},
 	"shuffle":
@@ -19,7 +19,7 @@ var cardFromName:={
 			"powerful":0,
 			"on_play":func():pass,
 			"on_get":func():pass,
-			"special_card":false, # true - predi razdavaneto se slaga, false - sled razdavane se slaga 
+			"special_card":false, # 
 			"times":4
 		},
 	"atack":
@@ -29,7 +29,7 @@ var cardFromName:={
 			"powerful":1,
 			"on_play":func():pass,
 			"on_get":func():pass,
-			"special_card":false, # true - predi razdavaneto se slaga, false - sled razdavane se slaga 
+			"special_card":false, # 
 			"times":4
 		},
 	"skip":
@@ -39,7 +39,7 @@ var cardFromName:={
 			"powerful":2,
 			"on_play":func():pass,
 			"on_get":func():pass,
-			"special_card":false, # true - predi razdavaneto se slaga, false - sled razdavane se slaga 
+			"special_card":false, # 
 			"times":4
 		},
 	"favor":
@@ -49,10 +49,19 @@ var cardFromName:={
 			"powerful":0,
 			"on_play":func():pass,
 			"on_get":func():pass,
-			"special_card":false, # true - predi razdavaneto se slaga, false - sled razdavane se slaga 
+			"special_card":false, # 
 			"times":4
-		}
-	
+		},
+	"explosion":
+		{
+			"name":"explosion",
+			"explosive":true,
+			"powerful":2,
+			"on_play":func():pass,
+			"on_get":func():pass,
+			"special_card":true, # 
+			"times":4
+		},
 	
 
 }
@@ -63,7 +72,7 @@ class SimpleDeck extends Node:
 	func _init(cards:=[],replicate:=false) -> void:
 		arrayOfCards=cards
 		replicated=replicate
-	func getCard(ind):
+	func getCard(ind:int):
 		if(arrayOfCards.size()>ind):
 			return arrayOfCards[ind];
 		return false;
@@ -72,7 +81,7 @@ class SimpleDeck extends Node:
 	func shuffle():
 		arrayOfCards.shuffle()
 		update()
-	func addCard(ind,card):
+	func addCard(ind:int,card):
 		if(arrayOfCards.size()>ind):
 			var a=arrayOfCards.insert(ind,card);
 			update()
@@ -81,7 +90,7 @@ class SimpleDeck extends Node:
 	func addUpCard(card): #Otgore
 		arrayOfCards.push_back(card)
 		update()
-	func deleteCard(ind):
+	func deleteCard(ind:int):
 		if(arrayOfCards.size()>ind):
 			arrayOfCards.pop_at(ind)
 			update()
@@ -90,6 +99,8 @@ class SimpleDeck extends Node:
 		update()
 	func size():
 		return arrayOfCards.size()
+	func printArr():
+		print(arrayOfCards)
 	func update():
 		if replicated:
 			rpc("update_rpc",arrayOfCards)
@@ -98,11 +109,14 @@ class SimpleDeck extends Node:
 		arrayOfCards=arr
 
 class PlayerHand extends SimpleDeck:
-	func play_card(card_index):
-		var stop_card=func():pass
+	func play_card(card_index:int):
+		var card=getCard(card_index)
+		deleteCard(card_index)
+		#Todo: Pravim on_play 
 	func endTurn(withDrawDeck:SimpleDeck): #Otgore
 		var card=withDrawDeck.getUpCard()
 		arrayOfCards.push_back(card)
+		withDrawDeck.deleteUpCard()
 
 var cards :=cardFromName.values()
 var usedDeck:=SimpleDeck.new([],true)
@@ -123,15 +137,24 @@ func makeAdvancedCard(card_name,ind):
 
 func end_turn():
 	pass
-func make_deck():
+func make_deck(brPlayers):
 	for i in range(0,CardDecks.cards.size()):
-		for j in range(0,CardDecks.cards[i].times):
-			#print_t
-			withDrawDeck.addUpCard(CardDecks.cards[i].name)
+		if !CardDecks.cards[i].special_card:
+			for j in range(0,CardDecks.cards[i].times):
+				#print_t
+				withDrawDeck.addUpCard(CardDecks.cards[i].name)
 	withDrawDeck.shuffle()
 	#print(withDrawDeck2.arrayOfCards)
 	print(withDrawDeck.arrayOfCards)
-
+	razdai(brPlayers)
+	
+	for i in range(0,CardDecks.cards.size()):
+		if CardDecks.cards[i].special_card:
+			for j in range(0,CardDecks.cards[i].times):
+				#print_t
+				withDrawDeck.addUpCard(CardDecks.cards[i].name)
+	withDrawDeck.shuffle()
+	withDrawDeck.printArr()
 func razdai(br):
 	for plId in range(0,br):
 		hands.push_back(PlayerHand.new([]))

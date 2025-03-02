@@ -1,8 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://bwf1rg02cs5ri"]
+[gd_scene load_steps=9 format=3 uid="uid://bwf1rg02cs5ri"]
 
 [ext_resource type="Script" uid="uid://6lt7npy6v0w2" path="res://nachalo.gd" id="1_m1bwd"]
 [ext_resource type="PackedScene" uid="uid://8u7r4hiseoi4" path="res://player.tscn" id="1_xeulm"]
-[ext_resource type="PackedScene" uid="uid://diex144oq7re" path="res://player-2.tscn" id="3_h2yge"]
 [ext_resource type="PackedScene" uid="uid://cpjel61t4megs" path="res://table.tscn" id="4_1bvp3"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_khi3g"]
@@ -27,7 +26,6 @@ points = PackedVector3Array(-7.5, 0, -7.5, -7.5, 0, 7.5, 7.5, 0, -7.5, 7.5, 0, 7
 [node name="Main" type="Node3D"]
 script = ExtResource("1_m1bwd")
 player_scene = ExtResource("1_xeulm")
-player_scene_2 = ExtResource("3_h2yge")
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("uid://8u7r4hiseoi4")

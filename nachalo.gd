@@ -1,7 +1,6 @@
 extends Node3D
 
 @export var player_scene:PackedScene
-@export var player_scene_2:PackedScene
 @export var port=1027
 @export var br=0
 @onready var address_entry: LineEdit = $CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/Adress
@@ -9,6 +8,20 @@ extends Node3D
 
 var peer=ENetMultiplayerPeer.new()
 var is_host=false
+class multipl extends Node:
+	var arr:Dictionary
+	func add_peer(id,nom):
+		arr[nom]=id
+		update()
+	func get_peer_id(nom:int):
+		return arr[nom]
+	func update():
+		rpc("update_rpc",arr)
+	@rpc("authority")
+	func update_rpc(dict):
+		arr=dict
+
+var multiplayerObj=multipl.new()
 
 func _on_host_button_pressed():
 	$CanvasLayer.hide()
@@ -20,6 +33,7 @@ func _on_host_button_pressed():
 	$PanelContainer.visible=true
 	start_game_bt.disabled=false
 	add_player(multiplayer.get_unique_id())
+	$table.nameN=0
 	#upnp_setup()
 
 func _on_join_button_pressed():
@@ -30,19 +44,22 @@ func start_game():
 	$MultiplayerSpawner.spawn_limit=br
 	start_game_bt.disabled=true
 	$PanelContainer.visible=false
-	CardDecks.make_deck()
-	CardDecks.razdai(br)
-	for i in range(0,br):
+	CardDecks.make_deck(br)
+	$table.izprati(0,1)
+	for i in range(1,br):
 		for j in CardDecks.hands[i].arrayOfCards:
 			$table.izprati(i,j)
 		
-func add_player(_id=1):
+func add_player(id=1):
+	rpc("added_player",br)
 	var player:=player_scene.instantiate()
+	multiplayerObj.add_peer(id,br)
 	player.name=str(br)
 	br+=1
 	#if is_host:
-	print("joined",br,_id)
+	#print("joined",br,id)
 	$table.add_player(player)
+
 func exit_game(id):
 	remove_player(id)
 
@@ -50,8 +67,12 @@ func remove_player(peer_id):
 	var player = get_node_or_null(str(peer_id))
 	if player:
 		player.queue_free()
-func _on_multiplayer_spawner_spawned(_node: Node) -> void:pass
+
 func _ready() -> void:
 	$PanelContainer.visible=false
-#@rpc("any_peer")
-#func start_game_rpc()
+	multiplayerObj.name="multiplayerThings"
+	add_child(multiplayerObj)
+@rpc("any_peer")
+func added_player(nom):
+	if $table.nameN==-1:
+		$table.nameN=nom

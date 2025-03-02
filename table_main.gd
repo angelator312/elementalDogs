@@ -1,6 +1,7 @@
 extends Node3D
 var show
-var nameN
+var nameN:int=-1
+var nameNMultiplayerSpawner
 @onready var text_hand: RichTextLabel = $RichTextLabel
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -8,12 +9,12 @@ func _unhandled_input(event: InputEvent) -> void:
 		show2()
 		print("usedCards:",CardDecks.usedDeck.arrayOfCards)
 		print("withdrawCards:",CardDecks.withDrawDeck.arrayOfCards)
-		
 
 func add_player(player):
 	call_deferred("add_child",player)
 
 func show2():
+	print(get_node("../multiplayerThings").arr)
 	#Input.mouse_mode=Input.MOUSE_MODE_VISIBLE
 	$Canvas.show()
 	show=true
@@ -33,14 +34,17 @@ func _on_quit_button_down() -> void:
 	get_tree().quit()
 
 func izprati(plF:int,card):
-	print("izprati",self.name)
+	#print("izprati",self.name)
 	rpc("izprati_rpc",plF,card)
-	text_hand.text=str(CardDecks.hands[plF].arrayOfCards)
+	text_hand.text=str(CardDecks.hands[nameN].arrayOfCards)
+	var strH=str(CardDecks.hands[nameN].arrayOfCards)
+	text_hand.text=strH
+	print(plF,text_hand.text)
 
 @rpc("any_peer","call_remote","reliable",3)
 func izprati_rpc(plF:int,card):
-	print(nameN,plF)
-	if nameN==str(plF):
+	#print("za",nameN,plF)
+	if nameN==plF:
 		CardDecks.hands[plF].addUpCard(card)
 		var strH=str(CardDecks.hands[plF].arrayOfCards)
 		text_hand.text=strH
