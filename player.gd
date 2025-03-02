@@ -5,19 +5,15 @@ const JUMP_VELOCITY = 10.0
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var camera: Camera3D = $Head/Camera
-var show0=false;
-
-
-func _enter_tree() -> void:
-	set_multiplayer_authority(name.to_int())
+var usb=false;
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	camera.current = is_multiplayer_authority()
+	camera.current = usb
 	pass # Replace with function body.
 
 func _unhandled_input(event: InputEvent) -> void:
-	if !is_multiplayer_authority():return
+	if !usb:return
 	if event is InputEventMouseMotion:
 		rotate_y(-event.relative.x*.005)
 

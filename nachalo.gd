@@ -9,10 +9,12 @@ extends Node3D
 var peer=ENetMultiplayerPeer.new()
 var is_host=false
 class multipl extends Node:
-	var arr:Dictionary
+	var arr:Array=[-1,-1,-1,-1]
 	func add_peer(id,nom):
 		arr[nom]=id
 		update()
+	func get_peer_name(id:int):
+		return arr.find(id)
 	func get_peer_id(nom:int):
 		return arr[nom]
 	func update():
@@ -33,25 +35,24 @@ func _on_host_button_pressed():
 	$PanelContainer.visible=true
 	start_game_bt.disabled=false
 	add_player(multiplayer.get_unique_id())
-	$table.nameN=0
 	#upnp_setup()
 
 func _on_join_button_pressed():
 	$CanvasLayer.hide()
 	peer.create_client(address_entry.text, port)
 	multiplayer.multiplayer_peer = peer
+
 func start_game():
 	$MultiplayerSpawner.spawn_limit=br
 	start_game_bt.disabled=true
 	$PanelContainer.visible=false
 	CardDecks.make_deck(br)
-	$table.izprati(0,1)
+	$table.opravi_host()
 	for i in range(1,br):
 		for j in CardDecks.hands[i].arrayOfCards:
 			$table.izprati(i,j)
 		
 func add_player(id=1):
-	rpc("added_player",br)
 	var player:=player_scene.instantiate()
 	multiplayerObj.add_peer(id,br)
 	player.name=str(br)
@@ -72,6 +73,7 @@ func _ready() -> void:
 	$PanelContainer.visible=false
 	multiplayerObj.name="multiplayerThings"
 	add_child(multiplayerObj)
+	$table.multiplObj=multiplayerObj
 @rpc("any_peer")
 func added_player(nom):
 	if $table.nameN==-1:

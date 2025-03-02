@@ -1,7 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://cpjel61t4megs"]
+[gd_scene load_steps=6 format=3 uid="uid://cpjel61t4megs"]
 
 [ext_resource type="Script" uid="uid://c370mwcb77nly" path="res://cards_decks.gd" id="1_jd0nb"]
 [ext_resource type="Script" uid="uid://b60eqf6f0pwdp" path="res://table_main.gd" id="1_v5i0k"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_v5i0k"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0xm2m"]
 albedo_color = Color(0.210157, 0.1943, 0.67, 1)
@@ -12,6 +14,12 @@ size = Vector3(2, 2, 2)
 
 [node name="table" type="Node3D"]
 script = ExtResource("1_v5i0k")
+
+[node name="Player" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.160201, 1.53231, -6.12988)
+visible = false
+mesh = SubResource("CapsuleMesh_v5i0k")
+skeleton = NodePath("../MultiplayerSpawner")
 
 [node name="Canvas" type="CanvasLayer" parent="."]
 visible = false
