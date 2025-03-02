@@ -27,11 +27,6 @@ points = PackedVector3Array(-7.5, 0, -7.5, -7.5, 0, 7.5, 7.5, 0, -7.5, 7.5, 0, 7
 script = ExtResource("1_m1bwd")
 player_scene = ExtResource("1_xeulm")
 
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://8u7r4hiseoi4")
-spawn_path = NodePath("..")
-spawn_limit = 4
-
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="PanelContainer" type="PanelContainer" parent="CanvasLayer"]
@@ -126,7 +121,6 @@ text = "StartGame"
 
 [node name="table" parent="." instance=ExtResource("4_1bvp3")]
 
-[connection signal="spawned" from="MultiplayerSpawner" to="." method="_on_multiplayer_spawner_spawned"]
 [connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/Host" to="." method="_on_host_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/Join" to="." method="_on_join_button_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/StartGame" to="." method="start_game"]

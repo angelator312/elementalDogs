@@ -51,6 +51,7 @@ func opravi_host():
 
 func izprati(plF:int,card):
 	#print("izprati",self.name)
+	print(multiplObj.arr)
 	rpc_id(multiplObj.arr[plF],"izprati_rpc",plF,card)
 
 

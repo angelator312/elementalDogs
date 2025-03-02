@@ -43,7 +43,6 @@ func _on_join_button_pressed():
 	multiplayer.multiplayer_peer = peer
 
 func start_game():
-	$MultiplayerSpawner.spawn_limit=br
 	start_game_bt.disabled=true
 	$PanelContainer.visible=false
 	CardDecks.make_deck(br)
