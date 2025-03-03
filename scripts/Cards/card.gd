@@ -42,17 +42,23 @@ func _ready() -> void:
 	sprite_3d.scale=Vector2(.5,.5)
 	create_collision_polygon(sprite_3d.texture.get_image(),Vector2(.5,.5))
 
-func create_collision_polygon(texture,scale):
+
+func create_collision_polygon(texture,scale,isLast:=false):
 		var bm = BitMap.new()
 		bm.create_from_image_alpha(texture)
 		# in the original script, it was Rect2(position.x, position.y ...)
-		var rect = Rect2(0, 0, texture.get_width(), texture.get_height())
+		var rect;
+		if isLast:
+			rect=Rect2(0, 0, texture.get_width(), texture.get_height())
+		else:
+			rect=Rect2(0, 0, GlobalConfig.get_logo_width()*2, texture.get_height())
+			
 		# change (rect, 2) for more or less precision
 		# for ex. (rect, 5) will have the polygon points spaced apart more
 		# (rect, 0.0001) will have points spaced very close together for a precise outline
 		var my_array = bm.opaque_to_polygons(rect, 2)
 		# optional - check if opaque_to_polygons() was able to get data
-		#print(my_array)
+		print(my_array)
 		var my_polygon = Polygon2D.new()
 		my_polygon.set_polygons(my_array)
 		var offsetX = 0

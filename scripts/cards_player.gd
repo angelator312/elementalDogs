@@ -4,7 +4,7 @@ extends Node2D
 @export var width=720
 
 func positionFromI(i:int)->Vector2:
-	return Vector2(i*90+(width/720)*180,590)
+	return Vector2(i*GlobalConfig.get_logo_width()+(width/720)*180,590)
 
 func on_start():
 	var sz=CardDecks.hands[nom].size()
