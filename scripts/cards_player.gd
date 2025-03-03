@@ -1,9 +1,10 @@
-extends Node3D
-
+extends Node2D
 @onready var nom:int=int($"..".name)
 
-func positionFromI(i:int)->Vector3:
-	return Vector3(i-2,1,i-3)
+@export var width=720
+
+func positionFromI(i:int)->Vector2:
+	return Vector2(i*90+(width/720)*180,590)
 
 func on_start():
 	var sz=CardDecks.hands[nom].size()

@@ -13,13 +13,14 @@ config_version=5
 config/name="ElementalDogs"
 config/description="Game with cards"
 config/version="0.1"
-run/main_scene="res://main.tscn"
+run/main_scene="res://scenes/main.tscn"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://Cards/images/1.svg"
 
 [autoload]
 
-CardDecks="*res://cards_decks.gd"
+CardDecks="*res://scripts/Globals/cards_decks.gd"
+GlobalConfig="*res://scripts/Globals/GlobalConfig.gd"
 
 [display]
 

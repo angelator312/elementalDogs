@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://8u7r4hiseoi4"]
 
-[ext_resource type="Script" uid="uid://3b6nu6ekfhyc" path="res://player.gd" id="1_li78c"]
-[ext_resource type="Script" uid="uid://hhxjljjdcckg" path="res://cards_player.gd" id="2_onrkg"]
+[ext_resource type="Script" uid="uid://3b6nu6ekfhyc" path="res://scripts/player.gd" id="1_li78c"]
+[ext_resource type="Script" uid="uid://hhxjljjdcckg" path="res://scripts/cards_player.gd" id="2_onrkg"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0wh5o"]
 
@@ -26,4 +26,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.974438, 0)
 mesh = SubResource("CapsuleMesh_5qqle")
 
 [node name="Cards" type="Node3D" parent="."]
+
+[node name="Cards2D" type="Node2D" parent="."]
 script = ExtResource("2_onrkg")
+
+[node name="Area2D" type="Area2D" parent="Cards2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="Cards2D/Area2D"]

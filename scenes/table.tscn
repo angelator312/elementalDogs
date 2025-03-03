@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://cpjel61t4megs"]
 
-[ext_resource type="Script" uid="uid://c370mwcb77nly" path="res://cards_decks.gd" id="1_jd0nb"]
-[ext_resource type="Script" uid="uid://b60eqf6f0pwdp" path="res://table_main.gd" id="1_v5i0k"]
+[ext_resource type="Script" uid="uid://c370mwcb77nly" path="res://scripts/Globals/cards_decks.gd" id="1_jd0nb"]
+[ext_resource type="Script" uid="uid://b60eqf6f0pwdp" path="res://scripts/table_main.gd" id="1_v5i0k"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_v5i0k"]
 
@@ -81,7 +81,6 @@ mesh = SubResource("BoxMesh_jd0nb")
 skeleton = NodePath("")
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://8u7r4hiseoi4")
 spawn_path = NodePath("..")
 spawn_limit = 4
 

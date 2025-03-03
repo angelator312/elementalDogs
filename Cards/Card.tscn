@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dngvhmaxfuicn"]
 
-[ext_resource type="Script" uid="uid://diglxgxkpsyub" path="res://Cards/card.gd" id="1_oclfm"]
+[ext_resource type="Script" uid="uid://diglxgxkpsyub" path="res://scripts/Cards/card.gd" id="1_oclfm"]
 [ext_resource type="Texture2D" uid="uid://8un4qugf4grb" path="res://Cards/images/1.png" id="2_oclfm"]
 
 [node name="Card" type="Node3D"]

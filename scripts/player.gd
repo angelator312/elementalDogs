@@ -22,9 +22,9 @@ func end_turn() -> void:
 	CardDecks.withDrawDeck.deleteUpCard()
 	# animations
 	#
-	$Cards.end_turn()
+	$Cards2D.end_turn()
 	#rpc("setUsedDeck",usedDeck)
 	pass # Replace with function body.
 
 func start_game():
-	$Cards.on_start()
+	$Cards2D.on_start()
