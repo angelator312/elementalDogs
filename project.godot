@@ -21,6 +21,10 @@ config/icon="res://Cards/images/1.svg"
 
 CardDecks="*res://cards_decks.gd"
 
+[display]
+
+display_server/driver.linuxbsd="wayland"
+
 [editor_plugins]
 
 enabled=PackedStringArray()

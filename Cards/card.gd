@@ -23,7 +23,7 @@ func simpleOnGet(arguments):
 var on_get=simpleOnGet;
 func _ready() -> void:
 	var sprite_3d:Sprite3D=get_children()[0];
+	print(name_of_card)
 	sprite_3d.texture=load("res://Cards/images/"+name_of_card+".png")
 	sprite_3d.set("size",Vector2(.5,.5))
-	sprite_3d.scale=Vector3(.2,.1,1)
-	print(sprite_3d.texture.resource_path)
+	sprite_3d.scale=Vector3(.1,.1,1)

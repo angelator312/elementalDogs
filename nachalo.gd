@@ -50,6 +50,7 @@ func start_game():
 	for i in range(1,br):
 		for j in CardDecks.hands[i].arrayOfCards:
 			$table.izprati(i,j)
+	$table.start()
 		
 func add_player(id=1):
 	var player:=player_scene.instantiate()
@@ -73,7 +74,7 @@ func _ready() -> void:
 	multiplayerObj.name="multiplayerThings"
 	add_child(multiplayerObj)
 	$table.multiplObj=multiplayerObj
-@rpc("any_peer")
-func added_player(nom):
-	if $table.nameN==-1:
-		$table.nameN=nom
+#@rpc("any_peer")
+#func added_player(nom):
+	#if $table.nameN==-1:
+		#$table.nameN=nom

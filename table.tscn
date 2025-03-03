@@ -61,7 +61,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.08694, -1.25805)
 script = ExtResource("1_jd0nb")
 
 [node name="EndTurn" type="Button" parent="."]
-visible = false
 offset_left = 47.0
 offset_top = 286.0
 offset_right = 125.0
@@ -88,3 +87,4 @@ spawn_limit = 4
 
 [connection signal="pressed" from="Canvas/PanelContainer/MarginContainer/VBoxContainer/Resume" to="." method="_on_resume_button_down"]
 [connection signal="pressed" from="Canvas/PanelContainer/MarginContainer/VBoxContainer/Quit" to="." method="_on_quit_button_down"]
+[connection signal="pressed" from="EndTurn" to="." method="_on_end_turn_pressed"]

@@ -15,9 +15,16 @@ func _ready() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if !usb:return
 	if event is InputEventMouseMotion:
-		rotate_y(-event.relative.x*.005)
+		$Head/Camera.rotate_y(-event.relative.x*.005)
 
-func _on_end_turn_pressed() -> void:
-	CardDecks.end_turn();
+func end_turn() -> void:
+	CardDecks.hands[int(name)].addUpCard(CardDecks.withDrawDeck.getUpCard())
+	CardDecks.withDrawDeck.deleteUpCard()
+	# animations
+	#
+	$Cards.end_turn()
 	#rpc("setUsedDeck",usedDeck)
 	pass # Replace with function body.
+
+func start_game():
+	$Cards.on_start()

@@ -2,9 +2,9 @@ extends Node3D
 class_name Deck
 
 var cardFromName:={
-	"not":
+	"Nope":
 		{
-			"name":"not",
+			"name":"Nope",
 			"explosive":false,
 			"powerful":1,
 			"on_play":func():pass,
@@ -12,9 +12,9 @@ var cardFromName:={
 			"special_card":false, #  false - predi razdavaneto se slaga, true - sled razdavane se slaga
 			"times":5
 		},
-	"shuffle":
+	"Shuffle":
 		{
-			"name":"shuffle",
+			"name":"Shuffle",
 			"explosive":false,
 			"powerful":0,
 			"on_play":func():pass,
@@ -22,9 +22,9 @@ var cardFromName:={
 			"special_card":false, # 
 			"times":4
 		},
-	"atack":
+	"Attack":
 		{
-			"name":"atack",
+			"name":"Attack",
 			"explosive":false,
 			"powerful":1,
 			"on_play":func():pass,
@@ -32,9 +32,9 @@ var cardFromName:={
 			"special_card":false, # 
 			"times":4
 		},
-	"skip":
+	"Skip":
 		{
-			"name":"skip",
+			"name":"Skip",
 			"explosive":false,
 			"powerful":2,
 			"on_play":func():pass,
@@ -42,9 +42,9 @@ var cardFromName:={
 			"special_card":false, # 
 			"times":4
 		},
-	"favor":
+	"Favor":
 		{
-			"name":"favor",
+			"name":"Favor",
 			"explosive":false,
 			"powerful":0,
 			"on_play":func():pass,
@@ -52,9 +52,9 @@ var cardFromName:={
 			"special_card":false, # 
 			"times":4
 		},
-	"explosion":
+	"Exploding":
 		{
-			"name":"explosion",
+			"name":"Exploding",
 			"explosive":true,
 			"powerful":2,
 			"on_play":func():pass,
@@ -126,7 +126,7 @@ func _init() -> void:
 	add_child(usedDeck)
 	add_child(withDrawDeck)
 func makeAdvancedCard(card_name,ind):
-	print(card_name)
+	#print(card_name)
 	var cardNow=Card.new(ind);
 	cardNow.explosive=cardFromName[card_name]["explosive"]
 	cardNow.name_of_card=cardFromName[card_name]["name"]
@@ -135,8 +135,6 @@ func makeAdvancedCard(card_name,ind):
 	cardNow.on_get=cardFromName[card_name]["on_get"]
 	return cardNow;
 
-func end_turn():
-	pass
 func make_deck(brPlayers):
 	for i in range(0,CardDecks.cards.size()):
 		if !CardDecks.cards[i].special_card:
@@ -144,8 +142,7 @@ func make_deck(brPlayers):
 				#print_t
 				withDrawDeck.addUpCard(CardDecks.cards[i].name)
 	withDrawDeck.shuffle()
-	#print(withDrawDeck2.arrayOfCards)
-	print(withDrawDeck.arrayOfCards)
+	
 	razdai(brPlayers)
 	
 	for i in range(0,CardDecks.cards.size()):
