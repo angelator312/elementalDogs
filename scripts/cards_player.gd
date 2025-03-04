@@ -60,9 +60,9 @@ func end_turn():
 #	tegli animatcia
 	var cardName=CardDecks.hands[nom].getUpCard()
 	var sz=CardDecks.hands[nom].size()
-	var card=CardDecks.makeAdvancedCard(cardName,sz-1)
-	card.position=positionFromI(sz-1)+Vector2(mouse_change,0)
-	self.add_child(card)
+	#var card=CardDecks.makeAdvancedCard(cardName,sz-1)
+	#card.position=positionFromI(sz-1)+Vector2(mouse_change,0)
+	#self.add_child(card)
 	create_polygon(sz-1)
 	if nomPilna==sz-2:nomPilna=sz-1
 	makeCards()
@@ -74,13 +74,6 @@ func create_polygon(brCard,raztegnata:=0):
 	#TODO:Working create polygon and conecting a signals that call the coresponding card's mouse_enter() and mouse_excited()
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
-			collision_shape_2d.position.x+=GlobalConfig.get_change_on_up_mouse_wheel()
-			mouse_change+=GlobalConfig.get_change_on_up_mouse_wheel()
-		if event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-			collision_shape_2d.position.x-=GlobalConfig.get_change_on_up_mouse_wheel()
-			mouse_change-=GlobalConfig.get_change_on_up_mouse_wheel()
 	if mouse_in:
 		if event is InputEventMouseMotion:
 			var card=cardFromX(get_local_mouse_position().x,nomPilna)

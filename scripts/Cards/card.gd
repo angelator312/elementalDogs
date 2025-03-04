@@ -19,7 +19,6 @@ func simpleOnGet(arguments):
 	pass
 var on_get=simpleOnGet;
 func mouse_entered():
-	
 	print("mouse_entered()")
 	self.position.y-=GlobalConfig.get_change_on_enter_mouse()
 	for i in get_children():
@@ -27,12 +26,6 @@ func mouse_entered():
 func mouse_exited():
 	print("mouse_exited()")
 	self.position.y+=GlobalConfig.get_change_on_enter_mouse()
-func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
-			self.position.x+=GlobalConfig.get_change_on_up_mouse_wheel()
-		if event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-			self.position.x-=GlobalConfig.get_change_on_up_mouse_wheel()
 func _ready() -> void:
 	var sprite_3d:Sprite2D=self.get_child(0);
 	print(name_of_card)
