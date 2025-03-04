@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://8u7r4hiseoi4"]
+[gd_scene load_steps=6 format=3 uid="uid://8u7r4hiseoi4"]
 
 [ext_resource type="Script" uid="uid://3b6nu6ekfhyc" path="res://scripts/player.gd" id="1_li78c"]
 [ext_resource type="Script" uid="uid://hhxjljjdcckg" path="res://scripts/cards_player.gd" id="2_onrkg"]
@@ -6,6 +6,9 @@
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0wh5o"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_5qqle"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g2els"]
+size = Vector2(688.5, 590)
 
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_li78c")
@@ -32,4 +35,6 @@ script = ExtResource("2_onrkg")
 
 [node name="Area2D" type="Area2D" parent="Cards2D"]
 
-[node name="Sprite2D" type="Sprite2D" parent="Cards2D/Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Cards2D/Area2D"]
+position = Vector2(119, 352)
+shape = SubResource("RectangleShape2D_g2els")
