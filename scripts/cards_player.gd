@@ -10,15 +10,19 @@ var nomPilna:=0
 func positionFromI(i:int)->Vector2:
 	return Vector2(i*GlobalConfig.get_logo_width()+golNaPilnataCarta,GlobalConfig.get_height_of_card()/2)
 func cardFromX(x:float,nomPilna:int):
+	var sz=CardDecks.hands[nom].size()
 	var malkiFirstChast=nomPilna*GlobalConfig.get_logo_width()
 	var goleminaChast=malkiFirstChast+golNaPilnataCarta
 	if x>goleminaChast:
-		var cardIndex=(x-goleminaChast)/GlobalConfig.get_logo_width()
-		return cardIndex
+		var malkiSecondChast=goleminaChast+(sz-nomPilna-1)*GlobalConfig.get_logo_width()
+		if x<malkiSecondChast:
+			var cardInd=nomPilna+(x-goleminaChast)/GlobalConfig.get_logo_width()
+			return cardInd
 	elif x>malkiFirstChast:
 		return nomPilna
-	else:
+	elif x<malkiFirstChast:
 		return x/GlobalConfig.get_logo_width()
+	return -1
 func mouse_entered():
 	mouse_in=true
 func mouse_exit():
@@ -34,8 +38,9 @@ func makeCards():
 		if !get_node_or_null(str(i)):
 			card.name=str(i)
 			self.add_child(card)
-func drawCards(pilnaCarta:=0):
+func drawCards(pilnaCarta:=-1):
 	var sz=CardDecks.hands[nom].size()
+	if pilnaCarta==-1:pilnaCarta=sz-1
 	for i in range(0,pilnaCarta+1):
 		var card=get_node(str(i))
 		card.position=positionFromI(i)
@@ -47,7 +52,7 @@ func on_start():
 	$Area2D.mouse_exited.connect(mouse_exit)
 	var sz=CardDecks.hands[nom].size()
 	makeCards()
-	drawCards(sz-1)
+	drawCards()
 	create_polygon(sz-1)
 	nomPilna=sz-1
 
