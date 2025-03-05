@@ -23,7 +23,7 @@ func cardFromX(x:float):
 		return nomPilna
 	elif x<malkiFirstChast:
 		return x/GlobalConfig.get_logo_width()
-	return sz-1
+	return sz-1 
 func mouse_entered():
 	mouse_in=true
 func mouse_exit():
@@ -42,7 +42,7 @@ func makeCards():
 func drawCards(pilnaCarta:=-1):
 	var sz=CardDecks.hands[nom].size()
 	if pilnaCarta==-1:pilnaCarta=nomPilna
-	for i in range(0,pilnaCarta+1):
+	for i in range(0,pilnaCarta+1): 
 		var card=get_node(str(i))
 		card.position=positionFromI(i)
 	for i in range(pilnaCarta+1,sz):
@@ -65,7 +65,7 @@ func end_turn():
 	var sz=CardDecks.hands[nom].size()
 	#var card=CardDecks.makeAdvancedCard(cardName,sz-1)
 	#card.position=positionFromI(sz-1)+Vector2(mouse_change,0)
-	#self.add_child(card) 
+	#self.add_child(card) Slow
 	create_polygon(sz-1)
 	nomPilna=sz-1
 	CardDecks.hands[nom].printArr()
@@ -83,3 +83,9 @@ func _unhandled_input(event: InputEvent) -> void:
 			nomPilna=card
 			drawCards(nomPilna)
 			#print(nomPilna)
+		if event is InputEventMouseButton:
+			if event.button_index ==MOUSE_BUTTON_LEFT:
+				$"../AnimationPlayer".play("play_card")
+				
+				#card logic
+			
