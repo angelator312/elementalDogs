@@ -7,29 +7,69 @@ extends Node2D
 var mouse_change=0
 var mouse_in:=false
 var golNaPilnataCarta=(width/720)*180
-var nomPilna:=0
+var nomPilna=0
+var heightOfCard=GlobalConfig.get_height_of_card()/2
+var poslSizove
+var min_width=GlobalConfig.get_logo_width()
+func setNomPilna(newVal:int):
+	nomPilna=newVal
+	update_variables()
+func cardSizes():
+	var sz=CardDecks.hands[nom].size()
+	var szs=[]
+	var vecSize:=Vector2(min_width,heightOfCard)
+	var goliamVecSize:=Vector2(GlobalConfig.get_width_of_card(),heightOfCard)
+	var pos:Vector2;
+	poslSizove=[]
+	for i in range(0,nomPilna):
+		pos=positionFromI(i)
+		szs.push_back(Rect2(pos,vecSize))
+		poslSizove=szs
+	pos=positionFromI(nomPilna)
+	szs.push_back(Rect2(pos,goliamVecSize))
+	poslSizove=szs
+	for i in range(nomPilna+1,sz-1):
+		pos=positionFromI(i)
+		szs.push_back(Rect2(pos,vecSize))
+		poslSizove=szs
+	pos=positionFromI(sz-1)
+	szs.push_back(Rect2(pos,goliamVecSize))
+	poslSizove=szs
+	return szs
+func sizeOfCardContainer():
+	var sum:=Vector2(0,0)
+	for i in poslSizove:
+		sum+=i.size
+	sum.y=heightOfCard
+	return sum
+func positionToCenter(pos:Vector2,size:Vector2):# От позиция за ляв горен ъгъл става в позиция за център
+	var posY=pos.y+size.y/2;
+	var posX=pos.x+size.x/2;
+	return Vector2(posX,posY)
 func positionFromI(i:int)->Vector2:
-	return Vector2(i*GlobalConfig.get_logo_width()+golNaPilnataCarta,GlobalConfig.get_height_of_card()/2)
+	var posX=0
+	for j in range(0,i):
+		posX+=poslSizove[j].size.x
+	#posX=posX/2
+	#return Vector2(i*GlobalConfig.get_logo_width()+golNaPilnataCarta,get_viewport().size.y-(GlobalConfig.get_height_of_card()/2+40))
+	return Vector2(posX,0)
 func cardFromX(x:float):
 	var sz=CardDecks.hands[nom].size()
-	var malkiFirstChast=nomPilna*GlobalConfig.get_logo_width()
-	var goleminaChast=malkiFirstChast+golNaPilnataCarta
-	if x>goleminaChast:
-		var malkiSecondChast=goleminaChast+(sz-nomPilna-1)*GlobalConfig.get_logo_width()
-		if x<malkiSecondChast:
-			var cardInd=nomPilna+(x-goleminaChast)/GlobalConfig.get_logo_width()
-			return cardInd
-	elif x>malkiFirstChast:
-		return nomPilna
-	elif x<malkiFirstChast:
-		return x/GlobalConfig.get_logo_width()
+	var poslX:float=0.0
+	var nowX:float=0.0
+	for i in range(poslSizove.size()):
+		nowX=poslSizove[i].position.x
+		if(nowX>x&&x>poslX):
+			return i
+		poslX=nowX
 	return sz-1 
 func mouse_entered():
+	print("mouse_in")
 	mouse_in=true
 func mouse_exit():
 	mouse_in=false
 	var sz=CardDecks.hands[nom].size()
-	nomPilna=sz-1;
+	setNomPilna(sz-1)
 	drawCards()
 func makeCards():
 	var sz=CardDecks.hands[nom].size()
@@ -38,54 +78,75 @@ func makeCards():
 			var cardName=CardDecks.hands[nom].getCard(i)
 			var card=CardDecks.makeAdvancedCard(cardName,i)
 			card.name=str(i)
+			card.z_index=i+1
 			self.add_child(card)
-func drawCards(pilnaCarta:=-1):
+func drawCards():
 	var sz=CardDecks.hands[nom].size()
-	if pilnaCarta==-1:pilnaCarta=nomPilna
-	for i in range(0,pilnaCarta+1): 
+	for i in range(0,sz): 
 		var card=get_node(str(i))
-		card.position=positionFromI(i)
-	for i in range(pilnaCarta+1,sz):
-		var card=get_node(str(i))
-		card.position=positionFromI(i)+Vector2(golNaPilnataCarta,0)
+		card.position=poslSizove[i].position
 func on_new_cards():
 	makeCards()
 	drawCards()
+func update_variables():
+	poslSizove=cardSizes()
+	min_width=50
 func on_start():
-	$Area2D.mouse_entered.connect(mouse_entered)
-	$Area2D.mouse_exited.connect(mouse_exit)
+	#$Area2D.mouse_entered.connect(mouse_entered)
+	#$Area2D.mouse_exited.connect(mouse_exit)
+	
+	update_variables()
 	var sz=CardDecks.hands[nom].size()
-	nomPilna=sz-1
+	setNomPilna(sz-1)
 	create_polygon(sz-1)
 	anim_player.play("start_game")
 
 func end_turn():
 #	tegli animatcia
+	update_variables()
 	var cardName=CardDecks.hands[nom].getUpCard()
 	var sz=CardDecks.hands[nom].size()
 	#var card=CardDecks.makeAdvancedCard(cardName,sz-1)
 	#card.position=positionFromI(sz-1)+Vector2(mouse_change,0)
 	#self.add_child(card) Slow
 	create_polygon(sz-1)
-	nomPilna=sz-1
+	setNomPilna(sz-1)
 	CardDecks.hands[nom].printArr()
 	anim_player.play("end_turn")
 func create_polygon(brCard):
-	collision_shape_2d.shape.size=positionFromI(brCard)+Vector2(GlobalConfig.get_width_of_card(),0)
-	collision_shape_2d.position=Vector2(collision_shape_2d.shape.size.x/2+mouse_change,GlobalConfig.get_height_of_card()/2)
-	print(collision_shape_2d.shape.size)
+	var sz=sizeOfCardContainer()
+	collision_shape_2d.shape.size=sz
+	#collision_shape_2d.position=positionToCenter(positionFromI(0),sz)
+	if poslSizove.size()>0:
+		var szV=Vector2(get_viewport().size)
+		self.position=sz/2+(szV-sz)/2
+		#collision_shape_2d.position=positionToCenter(Vector2.ZERO,get_viewport().size
+		#collision_shape_2d.position=positionToCenter(Vector2.ZERO,sz)
+		collision_shape_2d.position=Vector2.ZERO
+	print(collision_shape_2d.position)
 	#TODO:Working create polygon and conecting a signals that call the coresponding card's mouse_enter() and mouse_excited()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if mouse_in:
 		if event is InputEventMouseMotion:
-			var card=cardFromX(get_local_mouse_position().x)
-			nomPilna=card
-			drawCards(nomPilna)
+			update_variables()
+			var sz=sizeOfCardContainer()
+			var msX=get_local_mouse_position().x+(sz/2).x
+			print(msX)
+			var card=cardFromX(msX)
+			setNomPilna(card)
+			drawCards()
 			#print(nomPilna)
 		if event is InputEventMouseButton:
 			if event.button_index ==MOUSE_BUTTON_LEFT:
 				$"../AnimationPlayer".play("play_card")
-				
+				var card=CardDecks.hands[nom].getCard(nomPilna)
+				if card:
+					CardDecks.usedDeck.addUpCard(card)
+					CardDecks.hands[nom].deleteCard(nomPilna)
+					var sz=CardDecks.hands[nom].size()
+					self.remove_child(get_node(str(nomPilna)))
+					setNomPilna(sz-1)
+					drawCards()
 				#card logic
 			

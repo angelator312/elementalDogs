@@ -35,6 +35,9 @@ tracks/0/keys = {
 [sub_resource type="Animation" id="Animation_dqkch"]
 resource_name = "idle"
 
+[sub_resource type="Animation" id="Animation_tuyoq"]
+resource_name = "play_card"
+
 [sub_resource type="Animation" id="Animation_qhqgy"]
 resource_name = "start_game"
 tracks/0/type = "method"
@@ -51,9 +54,6 @@ tracks/0/keys = {
 "method": &"on_new_cards"
 }]
 }
-
-[sub_resource type="Animation" id="Animation_tuyoq"]
-resource_name = "play_card"
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_qhqgy"]
 _data = {
@@ -86,11 +86,12 @@ mesh = SubResource("CapsuleMesh_5qqle")
 
 [node name="Cards2D" type="Node2D" parent="."]
 script = ExtResource("2_onrkg")
+metadata/_edit_group_ = true
 
 [node name="Area2D" type="Area2D" parent="Cards2D"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Cards2D/Area2D"]
-position = Vector2(119, 352)
+top_level = true
 shape = SubResource("RectangleShape2D_g2els")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -106,3 +107,6 @@ anim_player = NodePath("../AnimationPlayer")
 tree_root = ExtResource("4_qlg0r")
 advance_expression_base_node = NodePath("..")
 anim_player = NodePath("../AnimationPlayer")
+
+[connection signal="mouse_entered" from="Cards2D/Area2D" to="Cards2D" method="mouse_entered"]
+[connection signal="mouse_exited" from="Cards2D/Area2D" to="Cards2D" method="mouse_exit"]

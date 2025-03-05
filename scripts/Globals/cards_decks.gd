@@ -73,7 +73,7 @@ class SimpleDeck extends Node:
 		arrayOfCards=cards
 		replicated=replicate
 	func getCard(ind:int):
-		if(arrayOfCards.size()>ind):
+		if(arrayOfCards.size()>ind&& ind>-1):
 			return arrayOfCards[ind];
 		return false;
 	func getUpCard():
