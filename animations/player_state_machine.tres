@@ -1,0 +1,22 @@
+[gd_resource type="AnimationNodeStateMachine" load_steps=5 format=3 uid="uid://dkpv616xdlpwa"]
+
+[ext_resource type="AnimationNodeStateMachine" uid="uid://cxbi28bjgkwbg" path="res://animations/die_state_machine.tres" id="1_hfbq4"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_qlg0r"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_tuyoq"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_vjebj"]
+advance_mode = 2
+advance_expression = "!living"
+
+[resource]
+states/Die/node = ExtResource("1_hfbq4")
+states/Die/position = Vector2(407, 100)
+states/Start/position = Vector2(161, 100)
+states/idle/node = SubResource("AnimationNodeAnimation_qlg0r")
+states/idle/position = Vector2(272, 43)
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_tuyoq"), "idle", "Die", SubResource("AnimationNodeStateMachineTransition_vjebj")]
+graph_offset = Vector2(-47, -7)

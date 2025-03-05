@@ -6,9 +6,11 @@ const JUMP_VELOCITY = 10.0
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var camera: Camera3D = $Head/Camera
 var usb=false;
-
+var liiving:=true# Zhiv li e?
+var die_way:=0
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	$AnimationTree.active=true
 	camera.current = usb
 	pass # Replace with function body.
 
@@ -20,8 +22,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func end_turn() -> void:
 	CardDecks.hands[int(name)].addUpCard(CardDecks.withDrawDeck.getUpCard())
 	CardDecks.withDrawDeck.deleteUpCard()
-	# animations
-	#
+	CardDecks.hands[int(name)].printArr()
 	$Cards2D.end_turn()
 	#rpc("setUsedDeck",usedDeck)
 	pass # Replace with function body.

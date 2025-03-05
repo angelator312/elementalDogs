@@ -61,10 +61,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.08694, -1.25805)
 script = ExtResource("1_jd0nb")
 
 [node name="EndTurn" type="Button" parent="."]
-offset_left = 47.0
-offset_top = 286.0
-offset_right = 125.0
-offset_bottom = 317.0
+offset_left = 85.0
+offset_top = 51.0
+offset_right = 163.0
+offset_bottom = 82.0
 text = "End Turn"
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]

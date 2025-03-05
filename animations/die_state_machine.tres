@@ -1,0 +1,13 @@
+[gd_resource type="AnimationNodeStateMachine" load_steps=3 format=3 uid="uid://cxbi28bjgkwbg"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_2dqgb"]
+animation = &"die_0"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_g0odc"]
+advance_mode = 2
+advance_expression = "die_way==0"
+
+[resource]
+states/die_0/node = SubResource("AnimationNodeAnimation_2dqgb")
+states/die_0/position = Vector2(296, 47)
+transitions = ["Start", "die_0", SubResource("AnimationNodeStateMachineTransition_g0odc")]
