@@ -21,6 +21,7 @@ config/icon="res://Cards/images/1.svg"
 
 CardDecks="*res://scripts/Globals/cards_decks.gd"
 GlobalConfig="*res://scripts/Globals/GlobalConfig.gd"
+GameConfig="*res://scripts/Globals/GameConfig.gd"
 
 [display]
 
