@@ -47,7 +47,7 @@ func _on_quit_button_down() -> void:
 
 func opravi_host():
 	text_hand.text=str(CardDecks.hands[nameN()].arrayOfCards)
-	var strH=str(CardDecks.hands[nameN()].arrayOfCards)
+	var strH=str(nameN())+":"+str(CardDecks.hands[nameN()].arrayOfCards)
 	text_hand.text=strH
 
 func izprati(plF:int,card):
@@ -60,17 +60,21 @@ func izprati_rpc(plF:int,card):
 	#print("za",nameN,plF)
 	if nameN()==plF:
 		CardDecks.hands[plF].addUpCard(card)
-		var strH=str(CardDecks.hands[plF].arrayOfCards)
+		var strH=str(nameN())+":"+str(CardDecks.hands[plF].arrayOfCards)
 		text_hand.text=strH
 		#print(plF,text_hand.text)
 
 
 func _on_end_turn_pressed() -> void:
-	for i in get_child_count():
-		if get_child(i).name==str(nameN()):
-			get_child(i).end_turn()
-
+	get_node(str(nameN())).end_turn()
 func start():
-	for i in get_child_count():
-		if get_child(i).name==str(nameN()):
-			get_child(i).start_game()
+	rpc("start_rpc")
+@rpc("call_local")
+func start_rpc():
+	get_node(str(nameN())).usb=true
+	get_node(str(nameN())).start_game()
+	for i in self.get_children():
+		if i.has_method("start_game"):
+			if !i.usb:
+				i.delete()
+	#print_tree_pretty()

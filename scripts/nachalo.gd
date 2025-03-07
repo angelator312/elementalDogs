@@ -39,8 +39,9 @@ func _on_host_button_pressed():
 
 func _on_join_button_pressed():
 	$CanvasLayer.hide()
-	peer.create_client(address_entry.text, port)
+	var err=peer.create_client(address_entry.text, port)
 	multiplayer.multiplayer_peer = peer
+	print("joined:",err==OK)
 
 func start_game():
 	start_game_bt.disabled=true
